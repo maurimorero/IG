@@ -1,5 +1,5 @@
 from celery import shared_task
-from .models import TwitterProfile, Request
+from .models import TwitterProfile
 import urllib2
 from bs4 import BeautifulSoup
 
@@ -25,7 +25,7 @@ def GetTwitterProfile (request):
         return twitterProfile
     name= soup.title.text
     description = soup.findAll("p", {"class": "ProfileHeaderCard-bio"})[0].text
-    imageURI = [x['src'] for x in soup.findAll('img', {'class': 'ProfileAvatar-image'})]
+    imageURI = [x['src'] for x in soup.findAll('img', {'class': 'ProfileAvatar-image'})][0]
     followers = soup.findAll('span', {'class': 'ProfileNav-value'})[2]['data-count']
     twitterProfile.username = request.username
     twitterProfile.name = name

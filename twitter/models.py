@@ -10,12 +10,12 @@ class TwitterProfile (models.Model):
     name = models.CharField(max_length=150)
     description  = models.CharField(max_length=400)
     imageURI = models.TextField(validators=[URLValidator()])
-    popularityIndex = models.CharField(max_length=400)
+    popularityIndex = models.CharField(max_length=20)
     def __str__(self):
 		return (self.name)
 
 class Request (models.Model):
-    username = models.CharField(max_length=100)
+    username = models.CharField(max_length=50)
     createdDate = models.DateTimeField(default=timezone.now, blank=True)
     status = models.CharField(max_length=100, default= "Pending")
 

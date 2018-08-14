@@ -17,10 +17,10 @@ class TwitterProfileTests(TestCase):
 
     def test_get_valid_profile2(self):
         request = Request()
-        request.username = "realDonaldTrump"
+        request.username = "DiarioOle"
         request.save()
         twitterProfile = GetTwitterProfile(request)
-        self.assertEqual(twitterProfile.name, "Donald J. Trump (@realDonaldTrump) | Twitter")
+        self.assertEqual(twitterProfile.name, "Diario Olé (@DiarioOle) | Twitter")
 
     def test_get_invalid_profile(self):
         request = Request()
@@ -35,3 +35,51 @@ class TwitterProfileTests(TestCase):
         request.save()
         twitterProfile = GetTwitterProfile(request)
         self.assertEqual(twitterProfile.id, -1)
+
+
+    def test_get_description(self):
+        request = Request()
+        request.username = "carlitostevez"
+        request.save()
+        twitterProfile = GetTwitterProfile(request)
+        self.assertEqual(twitterProfile.description, "Jugador de Boca Juniors y Piola Vago frontman")
+
+    def test_get_imageURI(self):
+        request = Request()
+        request.username = "carlitostevez"
+        request.save()
+        twitterProfile = GetTwitterProfile(request)
+        self.assertEqual(twitterProfile.imageURI, "https://pbs.twimg.com/profile_images/959194538182103041/q6heJEdD_400x400.jpg")
+
+
+class RequestTests(TestCase):
+    def test_request_pending(self):
+        request = Request()
+        request.username = "maurimorero"
+        request.save()
+        request = Request.objects.latest()
+        self.assertEqual(request.status, "Pending")
+
+    def test_request_completed(self):
+        request = Request()
+        request.username = "maurimorero"
+        request.save()
+        twitterProfile = GetTwitterProfile(request)
+        request = Request.objects.latest()
+        self.assertEqual(request.status, "Completed")
+
+    def test_request_account_suspended(self):
+        request = Request()
+        request.username = "pedronavajas"
+        request.save()
+        twitterProfile = GetTwitterProfile(request)
+        request = Request.objects.latest()
+        self.assertEqual(request.status, "Account suspended")
+
+    def test_request_account_not_found(self):
+        request = Request()
+        request.username = "pedronavajas1dwdaafdasdsafdsafasd"
+        request.save()
+        twitterProfile = GetTwitterProfile(request)
+        request = Request.objects.latest()
+        self.assertEqual(request.status, "User not found")
