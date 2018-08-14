@@ -21,7 +21,14 @@ class RequestViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         response = super(RequestViewSet, self).create(request, *args, **kwargs)
         request=Request.objects.latest()
-        twitterProfile = GetTwitterProfile(request)
+        twitterProfile = TwitterProfile.objects.filter(username=request.username)
+        if not twitterProfile:
+            request.status = "Processing request"
+            twitterProfile = GetTwitterProfile(request)
+        else:
+            twitterProfile = TwitterProfile.objects.filter(username=request.username)[0]
+            request.status = "Completed"
+        request.save()
         return redirect('twitter:profile',id=twitterProfile.id)
 
 
