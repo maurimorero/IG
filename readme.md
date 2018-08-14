@@ -9,4 +9,4 @@
 
 
 ### Request format
-* Once loged in, en / page you have to specify the username to be consulted without @. There is no need to fill createdDate and status field (this will automatically completed by django)
+* Once loged in, in / page you have to specify the username to be consulted without @. There is no need to fill createdDate and status field (this will automatically completed by django)
