@@ -5,7 +5,7 @@
 * Activate virtalenv (source ../yourvirtualenvname/bin/activate)
 * In IG folder excecute `pip install -r requirements.txt`
 * In IG folder excecute `python manage.py migrate`
-* In IG folder excecute `python manage runserver`
+* In IG folder excecute `python manage.py runserver`
 
 
 ### Request format
